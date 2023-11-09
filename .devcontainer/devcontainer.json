@@ -1,7 +1,14 @@
 {
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
 	"features": {
-		"ghcr.io/devcontainers/features/go:1": {},
-		"ghcr.io/devcontainers/features/node:1": {}
-	}
+		"ghcr.io/devcontainers/features/go:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"timonwong.shellcheck"
+			]
+		}
+	},
+	"onCreateCommand": ".devcontainer/onCreateCommand.sh"
 }
