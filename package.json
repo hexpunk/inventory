@@ -1,0 +1,7 @@
+{
+  "name": "inventory",
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "htmx.org": "^1.9.8"
+  }
+}
