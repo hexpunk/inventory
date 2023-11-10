@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"net/http/cgi"
@@ -57,15 +56,11 @@ func isCgiMode() bool {
 	return getAppEnvBool("CGI_MODE")
 }
 
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, world!")
-}
-
 func main() {
 	loadEnvVars()
 	setupLogging()
 
-	router := http.HandlerFunc(viewHandler)
+	router := NewRouter()
 
 	if isCgiMode() {
 		log.Debug().Msg("Running in CGI mode")
