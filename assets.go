@@ -9,3 +9,6 @@ import "embed"
 //go:embed node_modules/htmx.org/dist/htmx.js
 //go:embed node_modules/htmx.org/dist/htmx.min.js
 var nodeModules embed.FS
+
+//go:embed templates/*
+var templates embed.FS
