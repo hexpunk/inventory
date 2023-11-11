@@ -68,7 +68,7 @@ func main() {
 			cgi.Serve(router),
 		).Send()
 	} else {
-		host := getAppEnvDefault("HOST", "localhost")
+		host := getAppEnv("HOST")
 		port := getAppEnvDefault("PORT", "8080")
 
 		log.Debug().Str("host", host).Str("port", port).Msg("Running in HTTP mode")
