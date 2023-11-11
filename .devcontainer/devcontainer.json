@@ -6,7 +6,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"timonwong.shellcheck"
+				"timonwong.shellcheck",
+				"casualjim.gotemplate"
 			]
 		}
 	},
