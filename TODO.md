@@ -20,10 +20,6 @@ This is probably going to be necessary. I need to look at other people's pattern
 
 How can this be made as fast as possible so it doesn't matter if it runs per request? Make sure this logs when it happens.
 
-## different logging library?
-
-I'm enjoying [zerolog](https://github.com/rs/zerolog), but I'm a little concerned that since its API differs from the built-in log library, that's going to make integration with other libraries and middlewares more painful than it should be. Maybe look for alternatives?
-
 ## support for no javascript (?)
 
 HTMX has the `hx-boost` directive to provide itself as a progressive enhancement and fall back to full server-side rendering. This might be nice to have, although I don't know if it's nice enough to justify the logic that would have to be built into the template system to distinguish between boosted and non-boosted views. I don't want to need two templates per view. I don't want to have to be mindful every time I add a new view. If a pattern can support this use case without any cost to adding new features, it might be worth the geek cred to be able to use the site on a potato.
