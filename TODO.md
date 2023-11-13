@@ -19,3 +19,7 @@ This requires any database support at all first.
 This is probably going to be necessary. I need to look at other people's patterns for this. In HTTP mode, this makes perfect sense. But is this going to be a problem in CGI mode when this runs on every last request?
 
 How can this be made as fast as possible so it doesn't matter if it runs per request? Make sure this logs when it happens.
+
+## add stacktraces to errors
+
+Zerolog has the ability to print out stacktraces of errors, but I guess errors don't have stacktraces by default in Go. Weird. I'll have to pick an error helper library to add stacktraces.
