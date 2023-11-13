@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"mime"
 	"net/http"
 	"path/filepath"
@@ -57,9 +56,13 @@ func NewRouter() *chi.Mux {
 	)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		t, _ := template.ParseFS(templates, "templates/page.go.html")
+		err := RenderTemplate(w, "items/item.go.html")
 
-		t.Execute(w, nil)
+		if err != nil {
+			log.Logger.Error().Err(err).Send()
+
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
 	})
 
 	r.Get("/static/*", staticHandler)
