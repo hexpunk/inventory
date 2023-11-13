@@ -26,6 +26,8 @@ go.work
 
 # End of https://www.toptal.com/developers/gitignore/api/go
 
+# Go VSCode debug executables
+__debug*
 
 # Bun
 /node_modules
