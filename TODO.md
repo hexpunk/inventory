@@ -23,3 +23,7 @@ How can this be made as fast as possible so it doesn't matter if it runs per req
 ## add stacktraces to errors
 
 Zerolog has the ability to print out stacktraces of errors, but I guess errors don't have stacktraces by default in Go. Weird. I'll have to pick an error helper library to add stacktraces.
+
+## separate things into packages
+
+I'm concerned about namespace pollution. I think I may need to separate things into packages with a pattern such that a context can be used as a form of dependency injection.
