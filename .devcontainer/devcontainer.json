@@ -1,16 +1,18 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
-	"features": {
-		"ghcr.io/devcontainers/features/go:1": {}
-	},
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"timonwong.shellcheck",
-				"casualjim.gotemplate"
-			]
-		}
-	},
-	"onCreateCommand": "/bin/bash -i .devcontainer/onCreateCommand.sh",
-	"postStartCommand": "/bin/bash -i .devcontainer/postStartCommand.sh"
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/go:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "Tyriar.sort-lines",
+        "casualjim.gotemplate",
+        "timonwong.shellcheck"
+      ]
+    }
+  },
+  "onCreateCommand": "/bin/bash -i .devcontainer/onCreateCommand.sh",
+  "postStartCommand": "/bin/bash -i .devcontainer/postStartCommand.sh"
 }
