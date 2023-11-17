@@ -11,5 +11,6 @@
 			]
 		}
 	},
-	"onCreateCommand": ".devcontainer/onCreateCommand.sh"
+	"onCreateCommand": "/bin/bash -i .devcontainer/onCreateCommand.sh",
+	"postStartCommand": "/bin/bash -i .devcontainer/postStartCommand.sh"
 }
