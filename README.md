@@ -17,6 +17,6 @@
 `.env` files are loaded in the following order. Once an environment variable is set, it is not overridden by subsequent `.env` files.
 
 1. `.env.${INVENTORY_ENV}.local`
-1. `.env.local`
-1. `.env.${INVENTORY_ENV}`
-1. `.env`
+2. `.env.local`
+3. `.env.${INVENTORY_ENV}`
+4. `.env`

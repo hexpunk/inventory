@@ -23,3 +23,14 @@ How can this be made as fast as possible so it doesn't matter if it runs per req
 ## add stacktraces to errors
 
 Zerolog has the ability to print out stacktraces of errors, but I guess errors don't have stacktraces by default in Go. Weird. I'll have to pick an error helper library to add stacktraces.
+
+## dark mode
+
+Bootstrap has a built-in dark mode now! Unfortunately, it doesn't automatically use the `prefers-color-scheme` media query.
+
+Current options include:
+
+1. Use javascript to detect `prefers-color-scheme` and set `data-bs-theme` in the DOM. 😞
+2. Use Bootstrap's sass options and mixins to use the media query.
+
+Neither is ideal. Both will require figuring out build pipeline stuff for frontend assets. I guess punt for now. This is more of a "nice to have".
