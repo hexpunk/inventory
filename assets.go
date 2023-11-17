@@ -5,8 +5,8 @@ import (
 	"html/template"
 	"io"
 	"io/fs"
-	"strings"
 
+	"github.com/hexpunk/inventory/htmltemplate"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
@@ -19,59 +19,25 @@ import (
 //go:embed node_modules/htmx.org/dist/htmx.min.js
 var nodeModules embed.FS
 
-//go:embed templates/*.go.html
-//go:embed templates/**/*.go.html
+//go:embed templates
 var templateFS embed.FS
 
 var parsedTemplates *template.Template
 
 func parseTemplates() error {
 	if parsedTemplates == nil {
-		err := fs.WalkDir(templateFS, ".", func(path string, d fs.DirEntry, err error) error {
-			if err != nil {
-				return err
-			}
+		dirfs, err := fs.Sub(templateFS, "templates")
+		if err != nil {
+			return err
+		}
 
-			if d.Type().IsRegular() {
-				name, _ := strings.CutPrefix(path, "templates/")
-
-				// The following code is borrowed liberally from the source of the html/template package's parseFS function.
-				// It has been altered to support using parts of the entire path to name templates.
-				var tmpl *template.Template
-				if parsedTemplates == nil {
-					parsedTemplates = template.New(name)
-				}
-				if name == parsedTemplates.Name() {
-					tmpl = parsedTemplates
-				} else {
-					tmpl = parsedTemplates.New(name)
-				}
-
-				s, err := templateFS.ReadFile(path)
-				if err != nil {
-					return err
-				}
-
-				_, err = tmpl.Parse(string(s))
-				if err != nil {
-					return err
-				}
-			}
-
-			return nil
-		})
+		parsedTemplates, err = htmltemplate.ParseFS(dirfs, "*.go.html", "*/*.go.html")
 		if err != nil {
 			return err
 		}
 
 		log.Logger.Trace().Func(func(e *zerolog.Event) {
-			all := parsedTemplates.Templates()
-			names := make([]string, len(all))
-			for i, t := range all {
-				names[i] = t.Name()
-			}
-
-			e.Strs("templates", names)
+			e.Strs("templates", htmltemplate.Names(parsedTemplates))
 		}).Send()
 	}
 

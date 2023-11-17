@@ -13,6 +13,7 @@ import (
 )
 
 func staticHandler(w http.ResponseWriter, r *http.Request) {
+	// TODO: try using https://pkg.go.dev/net/http#FileServer to simplify this handler
 	path := chi.URLParam(r, "*")
 	file, err := nodeModules.ReadFile("node_modules/" + path)
 
