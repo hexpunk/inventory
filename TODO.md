@@ -34,3 +34,7 @@ Current options include:
 2. Use Bootstrap's sass options and mixins to use the media query.
 
 Neither is ideal. Both will require figuring out build pipeline stuff for frontend assets. I guess punt for now. This is more of a "nice to have".
+
+## separate debugging symbols?
+
+I read a thing recently about separating debugging symbols from your binary to make a smaller executable while still being able to debug production binaries. I don't know if Go supports this. C does. Rust does. Maybe Go does? I feel like this can wait at least until I have a Makefile or whatever to streamline build steps.
