@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"os"
@@ -7,26 +7,25 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func getAppEnv(key string) string {
-	return os.Getenv(appName + "_" + key)
+func getEnv(appName, key string) string {
+	return strings.ToLower(strings.TrimSpace(os.Getenv(appName + "_" + key)))
 }
 
-func getAppEnvDefault(key, def string) string {
-	env := getAppEnv(key)
-	if env == "" {
+func orDefault(value, def string) string {
+	if value == "" {
 		return def
 	}
 
-	return env
+	return value
 }
 
-func getAppEnvBool(key string) bool {
-	value := strings.ToLower(strings.TrimSpace(getAppEnv(key)))
+func toBool(value string) bool {
+	value = strings.ToLower(strings.TrimSpace(value))
 	return value != "false" && value != ""
 }
 
-func getAppEnvLogLevel() zerolog.Level {
-	switch level := strings.ToLower(strings.TrimSpace(getAppEnv("LOG_LEVEL"))); level {
+func toLogLevel(level string) zerolog.Level {
+	switch level {
 	case "trace":
 		return zerolog.TraceLevel
 	case "debug":

@@ -5,71 +5,52 @@ import (
 	"net/http"
 	"net/http/cgi"
 	"os"
-	"strings"
 	"time"
 
-	"github.com/joho/godotenv"
+	"github.com/hexpunk/inventory/config"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
 var appName = "INVENTORY"
 
-func loadEnvVars() {
-	env := strings.ToLower(getAppEnvDefault("ENV", "development"))
-
-	godotenv.Load(".env." + env + ".local")
-
-	if env != "test" {
-		godotenv.Load(".env.local")
-	}
-
-	godotenv.Load(".env." + env)
-
-	godotenv.Load()
-}
-
-func setupLogging() {
+func setupLogging(config *config.Config) {
 	var dest io.Writer
-	if isCgiMode() {
+	if config.CgiMode() {
 		dest = os.Stderr
 	} else {
 		dest = os.Stdout
 	}
 
-	if getAppEnvBool("LOG_JSON") {
+	if config.LogJson() {
 		log.Logger = log.Logger.Output(dest)
 	} else {
 		log.Logger = log.Output(
 			zerolog.ConsoleWriter{
 				Out:        dest,
 				TimeFormat: time.RFC3339,
-				NoColor:    getAppEnvBool("LOG_NO_COLOR"),
+				NoColor:    config.LogNoColor(),
 			},
 		)
 	}
 
-	log.Logger.Level(getAppEnvLogLevel())
-}
-
-func isCgiMode() bool {
-	return getAppEnvBool("CGI_MODE")
+	log.Logger.Level(config.LogLevel())
 }
 
 func main() {
-	loadEnvVars()
-	setupLogging()
+	config := config.GetConfig(appName)
+	setupLogging(config)
 
 	router := NewRouter()
 
-	if isCgiMode() {
+	if config.CgiMode() {
 		log.Debug().Msg("Running in CGI mode")
 		log.Fatal().Err(
 			cgi.Serve(router),
 		).Send()
 	} else {
-		host := getAppEnv("HOST")
-		port := getAppEnvDefault("PORT", "8080")
+		host := config.Host()
+		port := config.Port()
 
 		log.Debug().Str("host", host).Str("port", port).Msg("Running in HTTP mode")
 		log.Fatal().Err(
