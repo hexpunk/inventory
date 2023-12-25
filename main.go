@@ -1,13 +1,18 @@
 package main
 
 import (
+	"database/sql"
 	"io"
 	"net/http"
 	"net/http/cgi"
 	"os"
+	"strings"
 	"time"
 
+	_ "github.com/mattn/go-sqlite3"
+
 	"github.com/hexpunk/inventory/config"
+	"github.com/hexpunk/inventory/db"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
@@ -37,9 +42,30 @@ func setupLogging(config *config.Config) {
 	log.Logger.Level(config.LogLevel())
 }
 
+func setupDatabase(config *config.Config) (*sql.DB, error) {
+	conn, err := sql.Open("sqlite3", config.SqliteDsn())
+	if err != nil {
+		return nil, err
+	}
+
+	if strings.Contains(config.SqliteDsn(), ":memory:") {
+		log.Warn().Msg("In-memory SQLite database detected. Data will not be persisted!")
+	}
+
+	if err = db.Migrate(conn, migrations); err != nil {
+		return nil, err
+	}
+
+	return conn, nil
+}
+
 func main() {
 	config := config.GetConfig(appName)
 	setupLogging(config)
+	_, err := setupDatabase(config)
+	if err != nil {
+		log.Fatal().Err(err).Send()
+	}
 
 	router := NewRouter()
 

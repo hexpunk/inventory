@@ -16,6 +16,10 @@ type Config struct {
 	host string
 	port string
 
+	// Database-related settings
+
+	sqliteDsn string
+
 	// Log-related settings
 
 	logLevel   zerolog.Level
@@ -37,6 +41,10 @@ func (c *Config) Host() string {
 
 func (c *Config) Port() string {
 	return c.port
+}
+
+func (c *Config) SqliteDsn() string {
+	return c.sqliteDsn
 }
 
 func (c *Config) LogLevel() zerolog.Level {
@@ -72,6 +80,8 @@ func GetConfig(appName string) *Config {
 
 		host: getEnv(appName, "HOST"),
 		port: orDefault(getEnv(appName, "PORT"), "8080"),
+
+		sqliteDsn: orDefault(getEnv(appName, "SQLITE_DSN"), ":memory:"),
 
 		logLevel:   toLogLevel(getEnv(appName, "ENVIRONMENT")),
 		logJson:    toBool(getEnv(appName, "LOG_JSON")),

@@ -11,6 +11,9 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+//go:embed migrations
+var migrations embed.FS
+
 //go:embed node_modules/bootstrap/dist/js/bootstrap.js
 //go:embed node_modules/bootstrap/dist/js/bootstrap.min.js
 //go:embed node_modules/bootstrap/dist/css/bootstrap.css
