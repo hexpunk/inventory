@@ -1,0 +1,5 @@
+CREATE TABLE test_table1 (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL DEFAULT ""
+);

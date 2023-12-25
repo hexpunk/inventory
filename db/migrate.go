@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"io/fs"
-	"path"
 	"regexp"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -36,7 +35,7 @@ func Migrate(db *sql.DB, fsys fs.FS) error {
 		return err
 	}
 
-	version := regexp.MustCompile("^[0-9]+")
+	numbers := regexp.MustCompile("[0-9]+")
 
 	tx, err := db.Begin()
 	if err != nil {
@@ -44,7 +43,9 @@ func Migrate(db *sql.DB, fsys fs.FS) error {
 	}
 
 	for _, file := range list {
-		if file > latest {
+		version := numbers.FindString(file)
+
+		if version > latest {
 			content, err := fs.ReadFile(fsys, file)
 			if err != nil {
 				return err
@@ -57,7 +58,7 @@ func Migrate(db *sql.DB, fsys fs.FS) error {
 				return err
 			}
 
-			_, err = tx.Exec("INSERT INTO schema_migrations (version) VALUE (?);", version.FindString(path.Base(file)))
+			_, err = tx.Exec("INSERT INTO schema_migrations (version) VALUES (?);", version)
 			if err != nil {
 				tx.Rollback()
 
