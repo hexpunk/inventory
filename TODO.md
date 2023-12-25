@@ -36,7 +36,3 @@ I read a thing recently about separating debugging symbols from your binary to m
 Once it makes any actual difference at all, default to production mode instead of development mode for security purposes.
 
 Or possibly remove environment names altogether if it doesn't really matter.
-
-## always turn on foreign_keys pragma
-
-In order to enforce foreign key constraints, this pragma must be turned on for every db session.

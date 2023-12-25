@@ -52,6 +52,11 @@ func setupDatabase(config *config.Config) (*sql.DB, error) {
 		log.Warn().Msg("In-memory SQLite database detected. Data will not be persisted!")
 	}
 
+	// Enforce foreign keys by default
+	if _, err := conn.Exec("PRAGMA foreign_keys = ON;"); err != nil {
+		return nil, err
+	}
+
 	if err = db.Migrate(conn, migrations); err != nil {
 		return nil, err
 	}
