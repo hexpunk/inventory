@@ -38,3 +38,6 @@ inventory
 .env
 .env.local
 .env.*.local
+
+# The default dev database
+devdb.sqlite3

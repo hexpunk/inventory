@@ -61,11 +61,14 @@ func setupDatabase(config *config.Config) (*sql.DB, error) {
 
 func main() {
 	config := config.GetConfig(appName)
+
 	setupLogging(config)
-	_, err := setupDatabase(config)
+
+	conn, err := setupDatabase(config)
 	if err != nil {
 		log.Fatal().Err(err).Send()
 	}
+	defer conn.Close()
 
 	router := NewRouter()
 
